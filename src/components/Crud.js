@@ -6,6 +6,7 @@ function Crud() {
   const url = "http://localhost:7000/data";
   const [list, setList] = useState([]);
   const [input, setInput] = useState("");
+  const [editInput, setEditInput] = useState("");
 
   useEffect(() => {
     fetchProducts();
@@ -29,6 +30,27 @@ function Crud() {
     Axios.delete(`${url}/${id}`).then(() => fetchProducts());
   };
 
+  const editItem = (item) => {
+    const newArray = list.map((e) => {
+      if (e.id === item.id) {
+        e.status = true;
+      } else {
+        e.status = false;
+      }
+      return e;
+    });
+    setList(newArray);
+  };
+
+  const updateItem = (elem) => {
+    let newObject = {
+      id: elem.id,
+      title: editInput,
+      status: false,
+    };
+    Axios.put(`http://localhost:7000/data/${newObject.id}`, newObject).then(() => fetchProducts());
+  };
+
   return (
     <div>
       <input
@@ -38,7 +60,13 @@ function Crud() {
         value={input}
       />
       <button onClick={addProduct}>Add product</button>
-      <Products list={list} removeItem={removeItem} />
+      <Products
+        list={list}
+        removeItem={removeItem}
+        editItem={editItem}
+        setEditInput={setEditInput}
+        updateItem={updateItem}
+      />
     </div>
   );
 }
