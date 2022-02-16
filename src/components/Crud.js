@@ -44,8 +44,3 @@ function Crud() {
 }
 
 export default Crud;
-
-//add editItem create flag
-// if status  = input appears for that create editItem function and send to props, map and change status
-//Create additional input for new Input and send as a props
-//Create update and send to props
