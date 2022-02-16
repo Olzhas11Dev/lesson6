@@ -6,8 +6,7 @@ function Crud() {
   const url = "http://localhost:7000/data";
   const [list, setList] = useState([]);
   const [input, setInput] = useState("");
-  const [updateInput, setUpdateInput] = useState("");
-  const [newInput, setNewInput] = useState("");
+
   useEffect(() => {
     fetchProducts();
   }, []);
@@ -30,29 +29,6 @@ function Crud() {
     Axios.delete(`${url}/${id}`).then(() => fetchProducts());
   };
 
-  const editItem = (elem) => {
-    const newArray = list.map((item) => {
-      // item.status = false;
-      if (item.id === elem.id) {
-        item.status = true;
-      }
-      return item;
-    });
-    setList(newArray);
-    setUpdateInput(elem.title);
-  };
-
-  const updateItem = (input, item) => {
-    let newInput = {
-      id: input.id,
-      title: item,
-      status: false,
-    };
-    Axios.put(`http://localhost:7000/data/${newInput.id}`, newInput).then(() => fetchProducts());
-    setInput("");
-    setNewInput("");
-  };
-
   return (
     <div>
       <input
@@ -62,17 +38,14 @@ function Crud() {
         value={input}
       />
       <button onClick={addProduct}>Add product</button>
-      <Products
-        list={list}
-        removeItem={removeItem}
-        editItem={editItem}
-        updateItem={updateItem}
-        value={updateInput}
-        setNewInput={setNewInput}
-        newInput={newInput}
-      />
+      <Products list={list} removeItem={removeItem} />
     </div>
   );
 }
 
 export default Crud;
+
+//add editItem create flag
+// if status  = input appears for that create editItem function and send to props, map and change status
+//Create additional input for new Input and send as a props
+//Create update and send to props
